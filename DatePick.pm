@@ -4,7 +4,7 @@ use 5.006;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '1.01';
 
 require Tk::Frame;
 our @ISA = qw(Tk::Frame);
@@ -293,14 +293,20 @@ sub addyear
 	{
 	for ($i=1;$i <= $years;$i++)
 		{
-		$total += daysinyear($yr+$i);
+		if ($mth > 2)
+		{$total += daysinyear($yr+$i);}
+		else
+		{$total += daysinyear($yr+$i-1);}
 		}
 	}#end of if
 	else
 	{
 	for ($i=$years;$i < 0;$i++)
 		{
-		$total -= daysinyear($yr+$i);
+		if ($mth > 2)
+			{$total -= daysinyear($yr+$i);}
+		else
+			{$total -= daysinyear($yr+$i+4);}
 		}
 	}#end of else
 	if (($total > $mx)or ($total < $mn))
