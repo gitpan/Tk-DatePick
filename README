@@ -1,5 +1,7 @@
-Tk/DatePick version 1.01
+Tk/DatePick version 1.02
 ========================
+ Minor patch over 1.02 to rectify errors pointed out by Slaven Rezic.
+
  This is a minor patch over 1.0 to take into account leapyears properly when
 adding and subtracting years
 

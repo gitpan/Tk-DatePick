@@ -3,7 +3,7 @@ use ExtUtils::MakeMaker;
 # the contents of the Makefile that is written.
 WriteMakefile(
     'NAME'		=> 'Tk::DatePick',
-    'VERSION'	=> "1.01", 
+    'VERSION_FROM'	=> "DatePick.pm", 
     'PREREQ_PM'		=> {'Tk' => 0,
 			'Tk::FireButton' => 0},
     ($] >= 5.005 ?    ## Add these new keywords supported since 5.005

@@ -1,10 +1,9 @@
 package Tk::DatePick;
 
-use 5.006;
 use strict;
 use warnings;
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 
 require Tk::Frame;
 our @ISA = qw(Tk::Frame);
@@ -22,6 +21,8 @@ sub Populate
 	my $currdate = $args->{'-text'};
 	my $format = $args->{'-dateformat'};
 	$format = 0 unless defined $format;
+	if (defined $currdate)
+		{die "Invalid Date" unless isvaliddate($currdate,$format);}
 	$currdate = ourtoday($format) unless defined $currdate;
 	if (defined $yeartype)
 		{
@@ -159,18 +160,7 @@ sub scalardate
 	my $scdate = 365;
 	my ($date,$format) = @_;
 	($day,$month,$year) = parsedate($date,$format);
-	if (($month < 1) or ($month > 12))
-		{print "invalid month";
-		 exit;
-		}
-	if (($year < 1901) or ($year > 2099))
-		{print "invalid year";
-		 exit;
-		}
-	if (($day < 1) or ($day > daysinmonth($year,$month)))
-		{print "invalid day";
-		 exit;
-		}
+	die "Invalid Date" unless isvaliddate($date,$format);
 	$year = $year - 1900;
 	for ($i = 1; $i < $year; $i++)
 		{
@@ -304,7 +294,7 @@ sub addyear
 	for ($i=$years;$i < 0;$i++)
 		{
 		if ($mth > 2)
-			{$total -= daysinyear($yr+$i);}
+			{$total -= daysinyear($yr+$i+1);}
 		else
 			{$total -= daysinyear($yr+$i+4);}
 		}
@@ -458,10 +448,16 @@ sub parsedate #returns day, month, year from datestring
 sub ourtoday #gives the current system date
 	{
 	my $format = $_[0];
-	my($ndate) = `date`;
-	chomp($ndate);
-	my($today) = unixtodate($ndate,$format);
-	return $today;
+	my @ar = localtime;
+	my $day = $ar[3];
+	my $month = $ar[4]+1;
+	my $year = $ar[5] + 1900;
+	my $date;
+	if ($format == 0)
+	{$date = $day.'/'.$month.'/'.$year;}
+	else
+	{$date = $month.'/'.$day.'/'.$year;}
+	return $date;
 	}
 #---------------------------------------------------------------
 #this converts unix dates to our dates
@@ -482,6 +478,20 @@ sub unixtodate
 }# end of unixtodate
 #---------------------------------------------------------------
 
+sub isvaliddate
+	{
+	my $valid = 1;
+	my ($date,$format) = @_;
+	my ($day,$month,$year) = parsedate($date,$format);
+	if (($month < 1) or ($month > 12))
+		{$valid = 0;}
+	if (($year < 1901) or ($year > 2099))
+		{$valid = 0;}
+	if (($day < 1) or ($day > daysinmonth($year,$month)))
+		{$valid =0;}
+	return $valid;
+	}
+#---------------------------------------------------------------
 1;
 
 

@@ -12,7 +12,7 @@ my $l2 = $main->Label(-text => 'Calendar Year')->pack();
 my $d2 = $main->DatePick(-text => '21/5/2015',
 			-yeartype => 'calyear')->pack();
 my $l3 = $main->Label(-text => 'Financial Year')->pack();
-my $d3 = $main->DatePick(-text => '21/5/1915',
+my $d3 = $main->DatePick(-text => '1/6/1915',
 			-yeartype => 'finyear')->pack();
 
 my $but = $main->Button(-text => 'Display Selection Results',

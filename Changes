@@ -1,4 +1,11 @@
 Revision history for Perl extension Tk::DatePick.
+
+1.02 5 Oct 2002
+	- fixed bug getting system date using `date' which gives invalid
+	dates due to locale problems. Now used 'localtime' function. 
+	Replaced 'exit'	on invalid dates with 'die'
+	Removed 'use 5.006' 
+
 1.01 2 Oct 2002
 	- fixed bug when adding or subtracting years to take proper account
 		of leap years.
